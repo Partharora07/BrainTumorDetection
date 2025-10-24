@@ -1,0 +1,51 @@
+### Backend stub (Flask) — `backend/app.py`
+
+app = Flask(__name__)
+
+# === TODO: Replace these with your real model loading code ===
+MODEL = None
+
+def load_model():
+global MODEL
+# load your trained classifier / CNN / SVM
+# e.g. MODEL = load_from_disk('model.pkl') or load keras model
+MODEL = 'dummy'
+
+def predict_on_image(img_pil):
+# img_pil is a PIL.Image
+# Run your preprocessing, segmentation, feature extraction, then predict
+# Here returns a dummy response for the frontend to use
+return {
+'label': 'NoTumor',
+'confidence': 0.87,
+'probabilities': {
+'Glioma': 0.05,
+'Meningioma': 0.03,
+'Pituitary': 0.05,
+'NoTumor': 0.87
+},
+'segmentation_url': None
+}
+# ============================================================
+
+@app.route('/predict', methods=['POST'])
+def predict():
+if 'image' not in request.files:
+return jsonify({'error': 'Missing image file'}), 400
+f = request.files['image']
+try:
+img_bytes = f.read()
+img = Image.open(io.BytesIO(img_bytes)).convert('RGB')
+
+# Call your model pipeline here
+out = predict_on_image(img)
+return jsonify(out)
+except Exception as e:
+return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+load_model()
+app.run(host='0.0.0.0', port=5000, debug=True)
+```
+
+---
