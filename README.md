@@ -47,5 +47,3 @@ The pipeline includes **preprocessing, segmentation, feature extraction, and hyb
    ```bash
    git clone https://github.com/<your-username>/BrainTumorDetection.git
    cd BrainTumorDetection
-
-
